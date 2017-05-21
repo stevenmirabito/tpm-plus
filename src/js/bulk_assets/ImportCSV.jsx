@@ -13,8 +13,10 @@ class UploadCSV extends React.Component {
     // Initialize state
     this.state = {
       submitted: false,
+      importing: false,
       headersInCsv: false,
       file: null,
+      cards: [],
       importMethod: 'UPLOAD',
     };
   }
@@ -34,14 +36,30 @@ class UploadCSV extends React.Component {
         const lidField = scene.querySelector('input[name="item-add-cards-type_id"]');
 
         if (lidField) {
+          // Indicate that we're processing the cards
+          // and add the card data to state
+          this.setState({
+            importing: true,
+            cards: results.data.filter(data => {
+              // Sanity check, row should have at least 2 columns
+              return data.length >= 2;
+            }).map(card => {
+              return {
+                cardNumber: card[0],
+                pin: card[1],
+                processed: false,
+              };
+            }),
+          });
+
           // Instantiate an Asset API utility with the LID
-          const asset = new Asset(lidField.value);
+          //const asset = new Asset(lidField.value);
 
           // Add the assets
-          asset.add({
-            cardNumber: results.data[0][0],
-            pin: results.data[0][1],
-          });
+          //asset.add({
+          //  cardNumber: results.data[0][0],
+          //  pin: results.data[0][1],
+          //});
         } else {
           throw "Unable to find line item ID field";
         }
@@ -88,7 +106,9 @@ class UploadCSV extends React.Component {
         </div>
         {
           this.state.submitted ?
-          <CSVProgress currentCardNum={this.state.currentCardNum} /> :
+          <CSVProgress
+            importing={this.state.importing}
+            cards={this.state.cards} /> :
           <CSVForm
             importMethod={this.state.importMethod}
             onSubmit={this.submit.bind(this)}
