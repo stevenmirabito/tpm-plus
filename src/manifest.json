@@ -16,7 +16,9 @@
   "content_scripts": [
     {
       "matches": ["*://plasticmerchant.knack.com/bulksellers*"],
-      "js": ["content_scripts.js"]
+      "js": [
+        "pobuilder-ext.js"
+      ]
     }
   ],
 

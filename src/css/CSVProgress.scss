@@ -1,0 +1,14 @@
+.processingMsg {
+  overflow: hidden;
+
+  & > svg {
+    /* Spinner */
+    float: left;
+  }
+
+  & > h3 {
+    /* Processing Text */
+    margin-left: 35px !important;
+    line-height: 25px;
+  }
+}

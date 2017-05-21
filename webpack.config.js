@@ -5,12 +5,12 @@ var webpack = require('webpack'),
 
 module.exports = {
   entry: {
-    'content_scripts': [
+    'pobuilder-ext': [
       'babel-polyfill',
       'react-hot-loader/patch',
       'webpack-dev-server/client?https://localhost:' + env.PORT,
       'webpack/hot/only-dev-server',
-      path.join(__dirname, 'src', 'js', 'content_scripts.js'),
+      path.join(__dirname, 'src', 'js', 'pobuilder-ext.js'),
     ],
   },
   output: {
@@ -26,13 +26,13 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader?modules', ],
+        test: /\.s?css$/,
+        use: [ 'style-loader', 'css-loader?modules', "sass-loader", ],
       },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.css'],
+    extensions: ['.js', '.jsx', '.css', '.scss'],
   },
   plugins: [
     // expose and write env vars to the compiled bundle
