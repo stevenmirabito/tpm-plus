@@ -15,7 +15,7 @@ export class Asset {
   }
 
   add({ cardNumber, pin }) {
-    fetch('https://us-api.knack.com/v1/scenes/scene_438/views/view_828/records', {
+    return fetch('https://us-api.knack.com/v1/scenes/scene_438/views/view_828/records', {
       method: 'POST',
       headers: this.headers,
       credentials: 'include',
@@ -24,16 +24,7 @@ export class Asset {
         field_677: cardNumber,
         field_678: pin,
         field_679: this.lid,
-      })
-    })
-      .then((response) => {
-        if (response.ok) {
-          // Asset added successfully
-          console.log('[tpm-plus] success');
-        }
-      })
-      .catch((error) => {
-        console.error('[tpm-plus] Request failed: ', error);
-      });
+      }),
+    });
   }
 }

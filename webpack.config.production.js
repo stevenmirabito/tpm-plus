@@ -6,7 +6,7 @@ module.exports = {
   entry: {
     'pobuilder-ext': [
       'babel-polyfill',
-      path.join(__dirname, 'src', 'js', 'pobuilder-ext.js'),
+      path.join(__dirname, 'src', 'pobuilder-ext.js'),
     ],
   },
   output: {
@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: [ 'style-loader', 'css-loader?modules', ],
+        use: [ 'style-loader', 'css-loader?modules', 'sass-loader', ],
       },
     ],
   },
@@ -34,5 +34,6 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
     }),
+    new webpack.optimize.UglifyJsPlugin(),
   ],
 };

@@ -1,0 +1,7 @@
+.formGroup {
+  margin-bottom: 10px;
+}
+
+.validationError {
+  color: #a94442;
+}

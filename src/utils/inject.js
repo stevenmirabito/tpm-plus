@@ -1,4 +1,4 @@
-import { hotRender } from './render';
+import hotRender from './render';
 
 export default class ExtensionComponentInjector {
   constructor(Component, targetViewSelector) {
@@ -7,7 +7,7 @@ export default class ExtensionComponentInjector {
     this.instances = [];
   }
 
-  createContainer(insertAfterNode) {
+  static createContainer(insertAfterNode) {
     const container = document.createElement('div');
     container.id = `tpmplus-${Math.floor(Math.random() * 10000)}`;
     insertAfterNode.parentNode.insertBefore(container, insertAfterNode.nextSibling);
@@ -17,7 +17,7 @@ export default class ExtensionComponentInjector {
 
   insertComponent(insertAfterNode) {
     // Create a container for the component on the page
-    const containerId = this.createContainer(insertAfterNode);
+    const containerId = ExtensionComponentInjector.createContainer(insertAfterNode);
 
     // Render the component
     hotRender(this.component, containerId);
@@ -31,23 +31,23 @@ export default class ExtensionComponentInjector {
     this.component = component;
 
     // Rerender each valid instance
-    for (const instance of this.instances) {
+    this.instances.forEach((instance) => {
       hotRender(this.component, instance);
-    }
+    });
   }
 
   addMutationListener() {
     // Listen for new instances of the target view and inject
-    const observer = new MutationObserver((mutations) => {
+    new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.addedNodes) {
           mutation.addedNodes.forEach((node) => {
-            if (typeof node.matches === "function" &&
+            if (typeof node.matches === 'function' &&
                 node.matches(this.targetViewSelector)) {
               // Found a new instance of the target view, render
               this.insertComponent(node);
             }
-          })
+          });
         }
       });
     }).observe(document.body, {
@@ -59,7 +59,7 @@ export default class ExtensionComponentInjector {
   inject() {
     if (document.querySelector(this.targetViewSelector)) {
         // Target view is already on the page, render immediately
-        this.insertComponent();
+      this.insertComponent();
     }
 
     // Add a mutation listener to inject the component

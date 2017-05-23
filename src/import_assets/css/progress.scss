@@ -1,0 +1,57 @@
+.message {
+  overflow: hidden;
+
+  i {
+    /* Icons */
+    float: left;
+    font-size: 2em !important;
+    line-height: initial !important;
+  }
+
+  svg {
+    /* Spinner */
+    float: left;
+  }
+
+  h3 {
+    /* Text */
+    margin-left: 30px !important;
+    line-height: 25px;
+  }
+
+  svg + h3 {
+    /* Text next to spinner */
+    margin-left: 35px !important;
+  }
+
+  span {
+    /* Redirecting text */
+    color: #999999;
+  }
+}
+
+.table {
+  width: 50%;
+  padding: 0 !important;
+  margin-top: 20px !important;
+}
+
+.success {
+  color: #3c763d;
+  margin-right: 5px;
+}
+
+.waiting {
+  color: #8a6d3b;
+  margin-right: 5px;
+}
+
+.importing {
+  color: #31708f;
+  margin-right: 5px;
+}
+
+.error {
+  color: #a94442;
+  margin-right: 5px;
+}

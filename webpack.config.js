@@ -10,7 +10,7 @@ module.exports = {
       'react-hot-loader/patch',
       'webpack-dev-server/client?https://localhost:' + env.PORT,
       'webpack/hot/only-dev-server',
-      path.join(__dirname, 'src', 'js', 'pobuilder-ext.js'),
+      path.join(__dirname, 'src', 'pobuilder-ext.js'),
     ],
   },
   output: {
@@ -27,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: [ 'style-loader', 'css-loader?modules', "sass-loader", ],
+        use: [ 'style-loader', 'css-loader?modules', 'sass-loader', ],
       },
     ],
   },
