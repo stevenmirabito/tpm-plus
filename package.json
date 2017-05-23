@@ -1,6 +1,6 @@
 {
   "name": "tpm-plus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Adds additional functionality to The Plastic Merchant's Bulk Seller Platform",
   "author": "Steven Mirabito <steven@stevenmirabito.com>",
   "scripts": {

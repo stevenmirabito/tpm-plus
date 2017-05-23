@@ -83,21 +83,44 @@ export default class ImportAssets extends React.Component {
         const lidField = scene.querySelector('input[name="item-add-cards-type_id"]');
 
         if (lidField) {
-          this.setState({
-            importState: ImportStates.IMPORTING,
-            // Process the cards into a more friendly,
-            // immutable array of objects
-            cards: List(
+          // Process the cards into a more friendly,
+          // immutable array of objects
+          let cards = List();
+          if (this.state.headersInCsv) {
+            // Each asset has named columns
+            // Sanity check to make sure CSV has at least 2 columns
+            if (results.meta.fields.length < 2) {
+              throw Error('CSV does not have at least 2 columns');
+            }
+
+            // Map the result data
+            cards = List(
+              results.data
+                .map(card => Map({
+                  cardNumber: card[results.meta.fields[0]],
+                  pin: card[results.meta.fields[1]],
+                  state: ItemStates.WAITING,
+                })),
+            );
+          } else {
+            // Each asset is a simple array, filter and map
+            cards = List(
               results.data
                 .filter(data =>
                   // Sanity check, row should have at least 2 columns
-                   data.length >= 2)
+                  data.length >= 2
+                )
                 .map(card => Map({
                   cardNumber: card[0],
                   pin: card[1],
                   state: ItemStates.WAITING,
                 })),
-            ),
+            );
+          }
+
+          this.setState({
+            importState: ImportStates.IMPORTING,
+            cards: cards,
           });
 
           // Instantiate an Asset API object with the LID
@@ -122,11 +145,12 @@ export default class ImportAssets extends React.Component {
             setTimeout(() => window.location.reload(), 3000);
           });
         } else {
-          throw new Error('Unable to find line item ID field');
+          throw Error('Unable to find line item ID field');
         }
       })
-      .catch((err) => {
-        throw new Error('[tpm-plus]', err);
+      .catch((error) => {
+        this.setState({ importState: ImportStates.ERROR });
+        throw error;
       });
   }
 

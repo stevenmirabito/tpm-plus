@@ -17,6 +17,9 @@ const cardProcessor = function(asset, cardIndex, cardData, callback) {
         cards: this.state.cards.set(cardIndex,
           this.state.cards.get(cardIndex).set('state', ItemStates.SUCCESS)),
       });
+      callback(null);
+    } else {
+      throw Error(response.statusText);
     }
   })
   .catch((error) => {
@@ -24,10 +27,8 @@ const cardProcessor = function(asset, cardIndex, cardData, callback) {
       cards: this.state.cards.set(cardIndex,
         this.state.cards.get(cardIndex).set('state', ItemStates.ERROR)),
     });
+    callback(error);
   })
-  .then(() => {
-    callback(null);
-  });
 };
 
 export default cardProcessor;
